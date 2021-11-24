@@ -22,7 +22,13 @@ export const category = {
                 .then(res=>{
                     context.commit('categoryList', res.data.categories)
                 })
-        }
+        },
+        categoryListAll(context){
+            Axios.get('/api/admin/all-category')
+                .then(res=>{
+                    context.commit('categoryList', res.data.categories)
+                })
+        },
 
     },
     mutations: {

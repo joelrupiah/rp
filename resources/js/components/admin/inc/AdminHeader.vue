@@ -101,7 +101,7 @@
                 <div class="az-img-user">
                   <img src="/backend/img/faces/face1.jpg" alt="">
                 </div><!-- az-img-user -->
-                <h6>Aziana Pechon</h6>
+                <h6 v-if="user">{{ user.name }}</h6>
                 <span>Premium Member</span>
               </div><!-- az-header-profile -->
 
@@ -109,7 +109,7 @@
               <a href="" class="dropdown-item"><i class="typcn typcn-edit"></i> Edit Profile</a>
               <a href="" class="dropdown-item"><i class="typcn typcn-time"></i> Activity Logs</a>
               <a href="" class="dropdown-item"><i class="typcn typcn-cog-outline"></i> Account Settings</a>
-              <a href="page-signin.html" class="dropdown-item"><i class="typcn typcn-power-outline"></i> Sign Out</a>
+              <a href="#" @click.prevent="logout" class="dropdown-item"><i class="typcn typcn-power-outline"></i> Sign Out</a>
             </div><!-- dropdown-menu -->
           </div>
         </div><!-- az-header-right -->
@@ -118,7 +118,58 @@
 </template>
 
 <script>
+import User from '../../../apis/User'
+import { mapState } from 'vuex'
+
 export default {
-    name: 'AdminHeader'
+    name: 'AdminHeader',
+    data(){
+      return {
+        // user: {}
+      }
+    },
+    methods: {
+      logout(){
+        User.logout()
+          .then(() => {
+            localStorage.removeItem("token")
+            this.$store.commit('user/LOGIN', false)
+                this.notificationClass = 'vue-notification success'
+                    this.$notify({
+                      group: 'foo',
+                      title: 'Success',
+                      text: 'Logout request successful'
+                    })
+                    let self = this
+                    setTimeout(function(){
+                      self.$router.push({path: '/api/admin/admin-login'})
+                    }, 3000)
+          })
+      },
+
+      authUser(){
+        User.auth().then(response => {
+          this.$store.commit('user/AUTH_USER', response.data)
+          // this.user = response.data
+          // console.log(response.data)
+        })
+      },
+
+
+    },
+    computed: {
+      // ...mapState({
+      //   user: state => state.auth.user
+      // }),
+      user(){
+        return this.$store.getters['user/AUTH_USER']
+      }
+    },
+    mounted(){
+      this.authUser()
+    },
+    watch: {
+      
+    }
 }
 </script>

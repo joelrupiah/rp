@@ -5,7 +5,7 @@
             <label>Elements</label>
             <nav class="nav flex-column">
               <router-link :to="{name: 'AdminCategory'}" class="nav-link">Categories</router-link>
-              <router-link :to="{name: 'AdminProduct'}" class="nav-link">Products</router-link>
+              <router-link :to="{name: 'ProductList'}" class="nav-link">Products</router-link>
               <a href="elem-dropdown.html" class="nav-link">Dropdown</a>
               <a href="elem-icons.html" class="nav-link">Icons</a>
             </nav>
