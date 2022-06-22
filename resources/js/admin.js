@@ -10,6 +10,8 @@ import {store} from './common/store/store'
 
 import library from './common/library'
 
+import filter from './common/filter'
+
 import VueOwlCarousel from 'vue-owl-carousel'
 
 import Notifications from 'vue-notification'
@@ -36,6 +38,28 @@ Vue.use(Notifications)
 // End VueJs frontend frameworks
 
 Vue.use(VueOwlCarousel)
+
+router.beforeEach((to, from, next)=>{
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!localStorage.getItem('token')) {
+            next({
+                name: 'AdminLogin'
+            })
+        } else {
+            next()
+        }
+    }else if(to.matched.some(record => record.meta.requiresVisitor)){
+        if (localStorage.getItem('token')) {
+            next({
+                name: 'AdminDashboard'
+            })
+        } else {
+            next()
+        }
+    }else{
+        next()
+    }
+})
 
 const admin = new Vue({
     el: '#admin',

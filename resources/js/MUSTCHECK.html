@@ -1,0 +1,247 @@
+<template>
+  <div class="az-content-body pd-lg-l-40 d-flex flex-column">
+    <div class="az-content-breadcrumb mb-5">
+      <span>Components</span>
+      <span>UI Elements</span>
+      <span>Buttons</span>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <div class="az-content-label mg-b-5">Admins Table</div>
+
+      <div class="center d-flex justify-content-between">
+        <el-button type="success" icon="el-icon-plus" 
+        size="mini" @click="createModal">
+          Create User</el-button>
+          <el-input size="mini"
+            placeholder="Type something"
+            v-model="search">
+            <i slot="prefix" class="el-input__icon el-icon-search ml-2"></i>
+          </el-input>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover mg-b-0">
+        <thead>
+          <tr>
+            <th>SL</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Date Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          
+          <tr v-for="(admin, index) in admins" :key="admin.id">
+            <th scope="row">{{ index+1 }}</th>
+            <td>
+             {{ admin.name }}
+            </td>
+            <td>
+             {{ admin.role }}
+            </td>
+            <td>
+                {{ admin.created_at | time }}
+            </td>
+            <td>
+              <a class="ml-1" @click="editModal(admin)">
+                <i class="fas fa-pen" style="color: #00ff00"></i>
+              </a>
+              <a class="ml-1" @click.prevent="deleteAdmin(admin)">
+                <i class="fas fa-times" style="color: #ff0000"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <spinner :spinner="spinner"></spinner>
+    <!-- table-responsive -->
+
+    <el-dialog :title=" !editMode ? 'Create Administrator' : 'Update Administrator' " :visible.sync="dialogFormVisible" fullscreen>
+  <el-form :model="form">
+    <div class="row">
+        <div class="col-md-6">
+          <el-form-item label="Full name" :label-width="formLabelWidth">
+            <el-input v-model="form.name" size="mini" autocomplete="off"></el-input>
+          </el-form-item>
+        </div>
+        <div class="col-md-6">
+          <el-form-item label="Email Address" :label-width="formLabelWidth">
+            <el-input v-model="form.email" size="mini" autocomplete="off"></el-input>
+          </el-form-item>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <el-form-item label="Phone Number" :label-width="formLabelWidth">
+            <el-input v-model="form.phone" size="mini" autocomplete="off"></el-input>
+          </el-form-item>
+        </div>
+        <div class="col-md-6">
+          <el-form-item label="Identification Number" :label-width="formLabelWidth">
+            <el-input v-model="form.identification" size="mini" autocomplete="off"></el-input>
+          </el-form-item>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <el-form-item label="Select Role" :label-width="formLabelWidth">
+            <el-select v-model="form.role" size="mini" placeholder="Please select a role">
+              <el-option v-for="role in roles" :key="role.id" :value="role.id"
+              :label="role.name"></el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+        <div class="col-md-6">
+          <el-form-item label="Input Password" :label-width="formLabelWidth">
+            <el-input v-model="form.password" size="mini" autocomplete="off" show-password></el-input>
+          </el-form-item>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="ckbox" v-for="permission in permissions" :key="permission.name">
+              <input type="checkbox"
+              v-model="form.permissions"
+              :value="permission.name"><span>{{ permission.name }}</span>
+          </label>
+        </div>
+      </div>
+  </el-form>
+  <span slot="footer" class="dialog-footer">
+    <el-button type="danger" size="mini" @click="dialogFormVisible = false">Cancel</el-button>
+    <el-button type="success" size="mini" v-show="!editMode" :loading="loading" @click.prevent="submitUser()">Create</el-button>
+    <el-button type="success" size="mini" v-show="editMode" :loading="loading" @click.prevent="updateUser()">Update</el-button>
+  </span>
+</el-dialog>
+  </div>
+  <!-- az-content-body -->
+</template>
+
+<script>
+import Api from "../../../../apis/admin/Api";
+import spinner from '../../utilities/Spinner.vue'
+export default {
+  name: "AdminList",
+  components: {
+    spinner
+  },
+  data() {
+    return {
+        loading: false,
+        spinner: false,
+        editMode: false,
+        admin: {},
+        admins: [],
+        permissions: [],
+        roles: [],
+        search: '',
+        form: {
+          id: '',
+          name: '',
+          email: '',
+          phone: '',
+          identification: '',
+          role: 1,
+          permissions: []
+        },
+        dialogFormVisible: false,
+        formLabelWidth: '120px'
+    };
+  },
+  methods: {
+    clearForm(){
+      this.form.id = ''
+      this.form.name = ''
+      this.form.email = ''
+      this.form.phone = ''
+      this.form.identification = ''
+      this.form.role = ''
+      this.form.permissions = []
+    },
+    getAllAdmins(){
+      this.spinner = true
+        Api().get('/admin/get-all-admins')
+            .then(response => {
+              this.spinner = false
+                this.admins = response.data.admins
+                
+            })
+    },
+    getAllRoles(){
+        Api().get('/admin/get-all-roles')
+            .then(response => {
+                this.roles = response.data.roles
+                
+            })
+    },
+    getAllPermssions(){
+        Api().get('/admin/get-all-permissions')
+            .then(response => {
+                this.permissions = response.data.permissions
+                
+            })
+    },
+    createModal(){
+      this.editMode = false
+      this.clearForm()
+      this.dialogFormVisible = true
+    },
+    editModal(admin){
+      this.editMode = true
+      this.form.id = admin.id
+      this.form.name = admin.name
+      this.form.email = admin.email
+      this.form.phone = admin.phone
+      this.form.identification = admin.identification
+      this.form.role = admin.roles
+      this.form.permissions = admin.adminPermissions
+      this.dialogFormVisible = true
+     },
+    submitUser(){
+      this.loading = true
+      Api().post('/admin/create-user', this.form)
+        .then(() => {
+          this.getAllAdmins()
+           this.loading = false
+           this.dialogFormVisible = false
+        })
+        .catch(error => {
+          this.loading = false
+        })
+      
+    },
+    updateUser(){
+      this.loading = true
+      Api().post(`/admin/edit-admin/${this.form.id}`, this.form)
+        .then(() => {
+          this.getAllAdmins()
+          this.loading = false
+          this.dialogFormVisible = false
+        })
+        .catch(error => {
+          this.loading = false
+        })
+    },
+    deleteAdmin(admin){
+      Api().delete('/admin/delete-admin/'+admin.id)
+        .then(() => {
+          this.getAllAdmins()
+        })
+    }
+  },
+  created() {
+      this.getAllAdmins()
+      this.getAllRoles()
+      this.getAllPermssions()
+  },
+  computed: {
+    
+  },
+};
+</script>

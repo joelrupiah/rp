@@ -3,23 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $categories = Category::get();
+        $categories = Category::orderBy('created_at', 'DESC')->get();
 
         return response()->json([
             'categories' => $categories,
-            'status_code' => 200
         ], 200);
+    }
+
+    public function allUserCategories()
+    {
+        $categories = Category::withCount(['products'])
+            ->get();
+
+        return response()->json([
+            'categories' => $categories,
+        ], 200);
+    }
+
+    public function productsCategories(Request $request)
+    {
+        return $request;
     }
 
     public function getAllCategory()
@@ -31,22 +41,20 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function allActiveCategories()
+    {
+        $categories = Category::all();
+
+        return response()->json([
+            'categories' => $categories
+        ], 200);
+    }
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -63,60 +71,43 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
     public function show(Category $category)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Category $category)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        // dd($request->all());
         $request->validate([
             'title' => 'required'
         ]);
 
-        $category->update([
-            'title' => $request->title
-        ]);
+        $category = Category::findOrFail($id);
 
-        return response()->json([
-            'message' => 'Category updated successfully',
-            'status_code' => 200
-        ], 200);
+        $category->title = $request->title;
+
+        $category->save();
+
+        return response()->json('success', 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Category $category)
     {
         $category->delete();
+    }
+
+    public function activeCategories()
+    {
+        $categories = Category::get();
+
+        return response()->json([
+            'categories' => $categories,
+            'status_code' => 200
+        ], 200);
     }
 }

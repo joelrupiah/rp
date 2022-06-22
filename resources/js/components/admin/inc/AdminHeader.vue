@@ -1,139 +1,88 @@
 <template>
-    <div class="az-header">
-      <div class="container">
-        <div class="az-header-left">
-          <a href="index.html" class="az-logo"><span></span> azia</a>
-          <a href="" id="azMenuShow" class="az-header-menu-icon d-lg-none"><span></span></a>
-        </div><!-- az-header-left -->
-        <div class="az-header-menu">
-          <div class="az-header-menu-header">
-            <a href="index.html" class="az-logo"><span></span> azia</a>
-            <a href="" class="close">&times;</a>
-          </div><!-- az-header-menu-header -->
-          <ul class="nav">
-            <li class="nav-item">
-              <router-link :to="{name: 'AdminDashboard'}" class="nav-link"><i class="typcn typcn-chart-area-outline"></i> Dashboard</router-link>
-            </li>
-            <li class="nav-item">
-              <a href="" class="nav-link with-sub"><i class="typcn typcn-document"></i> Pages</a>
-              <nav class="az-menu-sub">
-                <a href="page-signin.html" class="nav-link">Sign In</a>
-                <a href="page-signup.html" class="nav-link">Sign Up</a>
-              </nav>
-            </li>
-            <li class="nav-item">
-              <a href="chart-chartjs.html" class="nav-link"><i class="typcn typcn-chart-bar-outline"></i> Charts</a>
-            </li>
-            <li class="nav-item">
-              <a href="form-elements.html" class="nav-link"><i class="typcn typcn-chart-bar-outline"></i> Forms</a>
-            </li>
-            <li class="nav-item active">
-              <a href="" class="nav-link with-sub"><i class="typcn typcn-book"></i> Components</a>
-              <div class="az-menu-sub">
-                <div class="container">
-                  <div>
-                    <nav class="nav">
-                      <a href="elem-buttons.html" class="nav-link">Buttons</a>
-                      <a href="elem-dropdown.html" class="nav-link">Dropdown</a>
-                      <a href="elem-icons.html" class="nav-link">Icons</a>
-                      <a href="table-basic.html" class="nav-link">Table</a>
-                    </nav>
+    <div id="admin_header">
+      <header class="navbar navbar-expand-md navbar-light d-print-none">
+        <div class="container-xl">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+            <a href=".">
+              <img src="/backend/static/logo.svg" width="110" height="32" alt="Tabler" class="navbar-brand-image">
+            </a>
+          </h1>
+          <div class="navbar-nav flex-row order-md-last">
+            <div class="nav-item d-none d-md-flex me-3">
+              <div class="btn-list">
+                <a href="https://github.com/tabler/tabler" class="btn" target="_blank" rel="noreferrer">
+                  <!-- Download SVG icon from http://tabler-icons.io/i/brand-github -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon text-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /></svg>
+                  Source code
+                </a>
+                <a href="https://github.com/sponsors/codecalm" class="btn" target="_blank" rel="noreferrer">
+                  <!-- Download SVG icon from http://tabler-icons.io/i/heart -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon text-pink" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" /></svg>
+                  Sponsor
+                </a>
+              </div>
+            </div>
+            <a href="?theme=dark" class="nav-link px-0 hide-theme-dark" title="Enable dark mode" data-bs-toggle="tooltip" data-bs-placement="bottom">
+              <!-- Download SVG icon from http://tabler-icons.io/i/moon -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg>
+            </a>
+            <a href="?theme=light" class="nav-link px-0 hide-theme-light" title="Enable light mode" data-bs-toggle="tooltip" data-bs-placement="bottom">
+              <!-- Download SVG icon from http://tabler-icons.io/i/sun -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="4" /><path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" /></svg>
+            </a>
+            <div class="nav-item dropdown d-none d-md-flex me-3">
+              <a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications">
+                <!-- Download SVG icon from http://tabler-icons.io/i/bell -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" /><path d="M9 17v1a3 3 0 0 0 6 0v-1" /></svg>
+                <span class="badge bg-red"></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end dropdown-menu-card">
+                <div class="card">
+                  <div class="card-body">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad amet consectetur exercitationem fugiat in ipsa ipsum, natus odio quidem quod repudiandae sapiente. Amet debitis et magni maxime necessitatibus ullam.
                   </div>
-                </div><!-- container -->
+                </div>
               </div>
-            </li>
-          </ul>
-        </div><!-- az-header-menu -->
-        <div class="az-header-right">
-          <a href="https://www.bootstrapdash.com/demo/azia-free/docs/documentation.html" target="_blank" class="az-header-search-link"><i class="far fa-file-alt"></i></a>
-          <a href="" class="az-header-search-link"><i class="fas fa-search"></i></a>
-          <div class="az-header-message">
-            <a href="#"><i class="typcn typcn-messages"></i></a>
-          </div><!-- az-header-message -->
-          <div class="dropdown az-header-notification">
-            <a href="" class="new"><i class="typcn typcn-bell"></i></a>
-            <div class="dropdown-menu">
-              <div class="az-dropdown-header mg-b-20 d-sm-none">
-                <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
+            </div>
+            <div class="nav-item dropdown">
+              <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+                <span class="avatar avatar-sm" style="background-image: url(/backend/static/avatars/000m.jpg)"></span>
+                <div class="d-none d-xl-block ps-2">
+                  <div v-if="admin">{{ admin.name }}</div>
+                  <div class="mt-1 small text-muted">UI Designer</div>
+                </div>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <a href="#" class="dropdown-item">Set status</a>
+                <a href="#" class="dropdown-item">Profile & account</a>
+                <a href="#" class="dropdown-item">Feedback</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">Settings</a>
+                <a @click.prevent="logout" class="dropdown-item">Logout</a>
               </div>
-              <h6 class="az-notification-title">Notifications</h6>
-              <p class="az-notification-text">You have 2 unread notification</p>
-              <div class="az-notification-list">
-                <div class="media new">
-                  <div class="az-img-user"><img src="/backend/img/faces/face2.jpg" alt=""></div>
-                  <div class="media-body">
-                    <p>Congratulate <strong>Socrates Itumay</strong> for work anniversaries</p>
-                    <span>Mar 15 12:32pm</span>
-                  </div><!-- media-body -->
-                </div><!-- media -->
-                <div class="media new">
-                  <div class="az-img-user online"><img src="/backend/img/faces/face3.jpg" alt=""></div>
-                  <div class="media-body">
-                    <p><strong>Joyce Chua</strong> just created a new blog post</p>
-                    <span>Mar 13 04:16am</span>
-                  </div><!-- media-body -->
-                </div><!-- media -->
-                <div class="media">
-                  <div class="az-img-user"><img src="/backend/img/faces/face4.jpg" alt=""></div>
-                  <div class="media-body">
-                    <p><strong>Althea Cabardo</strong> just created a new blog post</p>
-                    <span>Mar 13 02:56am</span>
-                  </div><!-- media-body -->
-                </div><!-- media -->
-                <div class="media">
-                  <div class="az-img-user"><img src="/backend/img/faces/face5.jpg" alt=""></div>
-                  <div class="media-body">
-                    <p><strong>Adrian Monino</strong> added new comment on your photo</p>
-                    <span>Mar 12 10:40pm</span>
-                  </div><!-- media-body -->
-                </div><!-- media -->
-              </div><!-- az-notification-list -->
-              <div class="dropdown-footer"><a href="">View All Notifications</a></div>
-            </div><!-- dropdown-menu -->
-          </div><!-- az-header-notification -->
-          <div class="dropdown az-profile-menu">
-            <a href="" class="az-img-user"><img src="/backend/img/faces/face1.jpg" alt=""></a>
-            <div class="dropdown-menu">
-              <div class="az-dropdown-header d-sm-none">
-                <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
-              </div>
-              <div class="az-header-profile">
-                <div class="az-img-user">
-                  <img src="/backend/img/faces/face1.jpg" alt="">
-                </div><!-- az-img-user -->
-                <h6 v-if="user">{{ user.name }}</h6>
-                <span>Premium Member</span>
-              </div><!-- az-header-profile -->
-
-              <a href="" class="dropdown-item"><i class="typcn typcn-user-outline"></i> My Profile</a>
-              <a href="" class="dropdown-item"><i class="typcn typcn-edit"></i> Edit Profile</a>
-              <a href="" class="dropdown-item"><i class="typcn typcn-time"></i> Activity Logs</a>
-              <a href="" class="dropdown-item"><i class="typcn typcn-cog-outline"></i> Account Settings</a>
-              <a href="#" @click.prevent="logout" class="dropdown-item"><i class="typcn typcn-power-outline"></i> Sign Out</a>
-            </div><!-- dropdown-menu -->
+            </div>
           </div>
-        </div><!-- az-header-right -->
-      </div><!-- container -->
-    </div><!-- az-header -->
+        </div>
+      </header>
+    </div>
 </template>
 
 <script>
-import User from '../../../apis/User'
-import { mapState } from 'vuex'
-
+import Admin from '../../../apis/admin/User'
 export default {
     name: 'AdminHeader',
     data(){
-      return {
-        // user: {}
-      }
+      return {}
     },
     methods: {
       logout(){
-        User.logout()
+        Admin.logout()
           .then(() => {
             localStorage.removeItem("token")
-            this.$store.commit('user/LOGIN', false)
+            this.$store.commit('admin/LOGIN', false)
                 this.notificationClass = 'vue-notification success'
                     this.$notify({
                       group: 'foo',
@@ -142,34 +91,26 @@ export default {
                     })
                     let self = this
                     setTimeout(function(){
-                      self.$router.push({path: '/api/admin/admin-login'})
+                      // self.$router.push({path: '/api/admin/admin-login'})
+                      window.location.href = '/api/admin/admin-login'
                     }, 3000)
           })
       },
-
-      authUser(){
-        User.auth().then(response => {
-          this.$store.commit('user/AUTH_USER', response.data)
-          // this.user = response.data
+      authAdmin(){
+        Admin.auth().then(response => {
+          this.$store.commit('admin/AUTH_ADMIN', response.data)
+          // this.admin = response.data
           // console.log(response.data)
         })
       },
-
-
     },
     computed: {
-      // ...mapState({
-      //   user: state => state.auth.user
-      // }),
-      user(){
-        return this.$store.getters['user/AUTH_USER']
+      admin(){
+        return this.$store.getters['admin/AUTH_ADMIN']
       }
     },
     mounted(){
-      this.authUser()
+      this.authAdmin()
     },
-    watch: {
-      
-    }
 }
 </script>
